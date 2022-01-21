@@ -3,11 +3,14 @@ import ReservationCard from './components/ReservationCard'
 import { RootState } from './app/store'
 import { addReservation } from './features/reservationSlice'
 import { useSelector, useDispatch } from 'react-redux'
+import CustomerCard from './components/CustomerCard'
 
 export default function App() {
   const [reservationNameInput, setReservationNameInput] = useState('')
 
   const reservations = useSelector((state: RootState) => state.reservations.value)
+
+  const customers = useSelector((state: RootState) => state.customer.value)
 
   const handleAddReservations = () => {
     if (!reservationNameInput) return
@@ -33,16 +36,7 @@ export default function App() {
           </div>
         </div>
         <div className="customer-food-container">
-          <div className="customer-food-card-container">
-            <p>Selena Gomez</p>
-            <div className="customer-foods-container">
-              <div className="customer-food"></div>
-              <div className="customer-food-input-container">
-                <input />
-                <button>Add</button>
-              </div>
-            </div>
-          </div>
+          {customers.map((customer) => <CustomerCard customer={customer}/>)}
         </div>
       </div>
     </div>
