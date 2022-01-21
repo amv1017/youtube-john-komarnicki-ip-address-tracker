@@ -1,7 +1,9 @@
+import { _DEPOSIT, _WITHDRAW } from '../../constants'
+
 const depositMoney = (amount) => {
   return (dispatch) => {
     dispatch({
-      type: "deposit",
+      type: _DEPOSIT,
       payload: amount
     })
   }
@@ -10,7 +12,7 @@ const depositMoney = (amount) => {
 const withdrawMoney = (amount) => {
   return (dispatch) => {
     dispatch({
-      type: "withdraw",
+      type: _WITHDRAW,
       payload: amount
     })
   }
