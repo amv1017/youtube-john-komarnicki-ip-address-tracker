@@ -1,10 +1,18 @@
-import './App.css'
 import ComponentWithUseReducer from './components/ComponentWithUseReducer'
+import ComponentWithUseContext from './components/ComponentWithUseContext'
+import './App.css'
 
 function App() {
   return (
     <div className="App">
-      <ComponentWithUseReducer />
+      <div className="Section">
+        <p>useReducer</p>
+        <ComponentWithUseReducer />
+      </div>
+      <div className="Section">
+        <p>useContext</p>
+        <ComponentWithUseContext />
+      </div>
     </div>
   )
 }
