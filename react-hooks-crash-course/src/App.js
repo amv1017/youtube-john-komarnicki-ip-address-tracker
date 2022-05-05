@@ -1,9 +1,12 @@
 import ComponentWithUseReducer from './components/ComponentWithUseReducer'
 import ComponentWithUseContext from './components/ComponentWithUseContext'
+import Parent from './components/ComponentWithUseContext/Parent'
 import './App.css'
 
 function App() {
   return (
+    
+
     <div className="App">
       <div className="Section">
         <p>useReducer</p>
@@ -11,7 +14,8 @@ function App() {
       </div>
       <div className="Section">
         <p>useContext</p>
-        <ComponentWithUseContext />
+        <Parent />
+        
       </div>
     </div>
   )
