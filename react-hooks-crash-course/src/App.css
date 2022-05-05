@@ -8,7 +8,7 @@
 	width: 500px;
 	height: 500px;
 	border: 0.1rem solid black;
-	margin: 10rem auto;
+	margin: 5rem auto;
 	background-color: #1411af;
 }
 
@@ -38,4 +38,5 @@
 	height: 100px;
 	border: 0.1rem solid black;
 	background-color: #af4311;
+  color: #fff;
 }
