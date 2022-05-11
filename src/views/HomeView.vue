@@ -10,8 +10,11 @@
                   type="text"
                   placeholder="Search for any IP address or leave empty to get your IP info"
           >
+          <i class="cursor-pointer bg-black text-white px-4 h-12 rounded-tr-md rounded-br-md fas fa-chevron-right"></i>
         </div>
       </div>
+      <!-- IP Info -->
+      <IPInfo />
     </div>
   </div>
 </template>
@@ -19,10 +22,12 @@
 <script>
 // @ is an alias to /src
 
+import IPInfo from '../components/IPInfo.vue'
 
 export default {
   name: 'HomeView',
   components: {
+    IPInfo
   }
 }
 </script>
