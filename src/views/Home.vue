@@ -6,15 +6,19 @@
       <div class="w-full max-w-screen-sm">
         <h1 class="text-white text-center text-3xl pb-4">IP Address Tracker</h1>
         <div class="flex">
-          <input class="flex-1 py-3 px-2 rounded-tl-md rounded-bl-md focus:outline-none"
-                  type="text"
-                  placeholder="Search for any IP address or leave empty to get your IP info"
+          <input
+            v-model="queryIP"
+            class="flex-1 py-2 px-2 rounded-tl-md rounded-bl-md focus:outline-none"
+            type="text"
+            placeholder="Search for any IP address or leave empty to get your IP info"
           >
-          <i class="cursor-pointer bg-black text-white px-4 h-12 rounded-tr-md rounded-br-md fas fa-chevron-right"></i>
+          <button @click="getIPInfo" class="h-12">
+            <i class="cursor-pointer bg-black text-white px-4 h-12 rounded-tr-md rounded-br-md fas fa-chevron-right"></i>
+          </button>
         </div>
       </div>
       <!-- IP Info -->
-      <IPInfo />
+      <IPInfo v-if="infoIP" :infoIP="infoIP" />
     </div>
     <!-- Map -->
     <div id="mapid" class="h-full z-10"></div>
@@ -24,9 +28,10 @@
 <script>
 // @ is an alias to /src
 
-import {onMounted} from 'vue'
+import { onMounted, ref } from 'vue'
 import IPInfo from '../components/IPInfo.vue'
 import leaflet from 'leaflet'
+import axios from 'axios'
 
 export default {
   name: "Home",
@@ -34,10 +39,13 @@ export default {
     IPInfo
   },
   setup() {
-    let mymap
+    let mapview
+
+    const queryIP = ref("")
+    const infoIP = ref(null)
 
     onMounted(() => {
-      mymap = leaflet.map("mapid").setView([42.5145, -83.0147], 9)
+      mapview = leaflet.map("mapid").setView([42.5145, -83.0147], 9)
 
       leaflet.tileLayer(
         `https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=${process.env.VUE_APP_MAPBOX_ACCESS_TOKEN}`,
@@ -50,8 +58,32 @@ export default {
           zoomOffset: -1,
           accessToken: process.env.VUE_APP_MAPBOX_ACCESS_TOKEN,
         }
-      ).addTo(mymap)
+      ).addTo(mapview)
     })
+
+    const getIPInfo = async () => { // 8.8.8.8 // 45.77.87.22 // 46.31.23.60
+      try {
+        const { data } = await axios.get(`https://ipapi.co/${queryIP.value}/json/`, { mode: 'no-cors' })
+        infoIP.value = {
+          address: data.ip,
+          state: data.country_name,
+          timezone: data.utc_offset,
+          isp: data.org,
+          lat: data.latitude,
+          lng: data.longitude,
+        }
+        leaflet.marker([infoIP.value.lat, infoIP.value.lng]).addTo(mapview)
+        mapview.setView([infoIP.value.lat, infoIP.value.lng], 13)
+      } catch(err) {
+        alert(err.message)
+      }      
+    }
+
+    return {
+      queryIP,
+      infoIP,
+      getIPInfo
+    }
 
   },
 }
